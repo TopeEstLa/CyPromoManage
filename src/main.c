@@ -1,5 +1,6 @@
 #include <csv_parser.h>
 #include <stdio.h>
+#include <data_saver.h>
 
 int main(void) {
     /**
@@ -20,10 +21,19 @@ int main(void) {
      * Class -> List(Student*) -> Student* -> List(Course*) -> Course* -> List(Double*) lmao
      */
 
-    Class* class = process_csv_file("data.txt");
+    //Class *class = process_csv_file("data.txt");
 
-    Student* student = getStudentById(class, 226889900);
+    //Student *student = getStudentById(class, 226889900);
 
-    printStudent(student);
+    // printStudent(student);
 
+    printf("SAVING\n");
+    //bool saved = save_class_to_file(class, "class_data.bin");
+    printf("LOADING\n");
+    Class *loaded_class = load_class_from_file("class_data.bin");
+    if (loaded_class) {
+        printf("LOADED\n");
+        Student *studenat = getStudentById(loaded_class, 226889900);
+        printStudent(studenat);
+    }
 }

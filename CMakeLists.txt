@@ -20,4 +20,6 @@ add_executable(PromoManage
         src/class.c
         include/csv_parser.h
         src/csv_parser.c
+        include/data_saver.h
+        src/data_saver.c
 )
