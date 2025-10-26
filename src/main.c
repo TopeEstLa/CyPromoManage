@@ -4,7 +4,7 @@
 
 int main(void) {
     /**
-     *How my shit will work
+     *How this will work
      * Create class object
      * read all student line and create their object (and put it on the class student list)
      * end whhen i find the "MATIERES" line (skip 1 line cause its the 'csv header')
