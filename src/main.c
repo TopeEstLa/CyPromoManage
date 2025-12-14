@@ -24,5 +24,6 @@ int main(void) {
 
     Class *class = API_load_students("data.txt");
 
-    API_display(class);
+    //API_display(class);
+    API_display_results_per_field(class);
 }

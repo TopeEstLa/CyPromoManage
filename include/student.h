@@ -3,6 +3,37 @@
 
 #include <course.h>
 #include <list.h>
+#include <stdint.h>
+
+/**
+ * Index
+ */
+typedef enum {
+    MATHEMATIQUES = 0,
+    PHYSIQUE,
+    INFORMATIQUE,
+    CHIMIE,
+    BIOLOGIE,
+    HISTOIRE,
+    GEOGRAPHIE,
+    FRANCAIS,
+    ANGLAIS,
+    EPS,
+    PHILOSOPHIE,
+    ECONOMIE,
+    SOCIOLOGIE,
+    ARTS_PLASTIQUES,
+    MUSIQUE,
+    TECHNOLOGIE,
+    LATIN,
+    ESPAGNOL,
+    ALLEMAND,
+    SCIENCES_SOCIALES,
+} CourseIndex;
+
+#define SCIENCES_MASK ((1ULL << MATHEMATIQUES) | (1ULL << PHYSIQUE) | (1ULL << INFORMATIQUE) | (1ULL << CHIMIE) | (1ULL << BIOLOGIE) | (1ULL << TECHNOLOGIE))
+#define HUMANITIES_MASK ((1ULL << HISTOIRE) | (1ULL << GEOGRAPHIE) | (1ULL << FRANCAIS) | (1ULL << ANGLAIS) | (1ULL << PHILOSOPHIE) | (1ULL << ECONOMIE) | (1ULL << SOCIOLOGIE) | (1ULL << ARTS_PLASTIQUES) | (1ULL << MUSIQUE) | (1ULL << LATIN) | (1ULL << ESPAGNOL) | (1ULL << ALLEMAND) | (1ULL << SCIENCES_SOCIALES))
+#define YEAR_MASK (SCIENCES_MASK | HUMANITIES_MASK | (1ULL << EPS))
 
 /**
  * Represent a student
@@ -20,6 +51,7 @@ typedef struct student {
     int age;
     List *courses; // List of Course*
     double average;
+    uint64_t validation_flags;
 } Student;
 
 /**
@@ -39,10 +71,24 @@ Student *createStudent(int id, char *name, char *surname, int age);
 Student *freeStudent(Student *student);
 
 /**
+ * Compute the validation flags of a student based on his courses and their averages.
+ * @param student
+ */
+void computeStudentValidation(Student *student);
+
+/**
  * Compute the average of a student based on his courses and their coefficients.
  * @param student the student to compute the average for.
  */
 void computeStudentAverage(Student *student);
+
+/**
+ * Check if a student has validated the courses specified by the mask.
+ * @param student
+ * @param mask
+ * @return
+ */
+int checkValidation(Student *student, uint64_t mask);
 
 /**
  * Get a course by its name from a student's course list.

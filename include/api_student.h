@@ -31,5 +31,6 @@ char** API_sort_students(Class* pClass);
 
 Student** API_get_sorted_students(Class *classObj);
 
+void API_display_results_per_field(Class* pClass);
 
 #endif //API_STUDENT_H

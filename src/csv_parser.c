@@ -89,6 +89,7 @@ Class *process_csv_file(char *filename) {
 
                 addGradeToCourse(student, course_name, record->grade);
                 computeStudentAverage(student);
+                computeStudentValidation(student);
 
                 free(record->course_name);
                 free(record);

@@ -45,16 +45,16 @@ void API_unload(Class *class) {
     freeClass(class);
 }
 
-char** API_get_best_students(Class *class) {
+char **API_get_best_students(Class *class) {
     sortStudentsInClassByAverage(class);
 
-    char** bestStudents = malloc(SIZE_TOP1 * sizeof(char*));
+    char **bestStudents = malloc(SIZE_TOP1 * sizeof(char *));
     if (bestStudents == NULL) return NULL;
 
     for (int i = 0; i < SIZE_TOP1 && i < class->students->size; i++) {
-        Student* student = get(class->students, i);
+        Student *student = get(class->students, i);
         if (student != NULL) {
-            char* name = malloc(strlen(student->name)+strlen(student->surname) * sizeof(char));
+            char *name = malloc(strlen(student->name) + strlen(student->surname) * sizeof(char));
             if (name != NULL) {
                 //name = student->name + " " + student->surname;
                 strcpy(name, student->name);
@@ -72,16 +72,16 @@ char** API_get_best_students(Class *class) {
     return bestStudents;
 }
 
-char** API_get_best_students_in_course(Class *class, char *courseName) {
+char **API_get_best_students_in_course(Class *class, char *courseName) {
     sortStudentsInClassByAverageInCourse(class, courseName);
 
-    char** bestStudents = malloc(SIZE_TOP2 * sizeof(char*));
+    char **bestStudents = malloc(SIZE_TOP2 * sizeof(char *));
     if (bestStudents == NULL) return NULL;
 
     for (int i = 0; i < SIZE_TOP2 && i < class->students->size; i++) {
-        Student* student = get(class->students, i);
+        Student *student = get(class->students, i);
         if (student != NULL) {
-            char* name = malloc(strlen(student->name)+strlen(student->surname) * sizeof(char));
+            char *name = malloc(strlen(student->name) + strlen(student->surname) * sizeof(char));
             if (name != NULL) {
                 strcpy(name, student->name);
                 strcat(name, " ");
@@ -137,7 +137,7 @@ int compareByMin(void *studentA, void *studentB, void *context) {
 
 //function ptr to the selected compare function save it here
 
-int API_set_sorting_mode(Class* pClass, int mode) {
+int API_set_sorting_mode(Class *pClass, int mode) {
     switch (mode) {
         case ALPHA_FIRST_NAME:
             pClass->sortingFunction = &compareByFirstName;
@@ -158,16 +158,16 @@ int API_set_sorting_mode(Class* pClass, int mode) {
     return 1;
 }
 
-char** API_sort_students(Class* pClass) {
+char **API_sort_students(Class *pClass) {
     sortStudent(pClass, NULL);
 
-    char** sortedStudents = malloc(SIZE_TOP1 * sizeof(char*));
+    char **sortedStudents = malloc(SIZE_TOP1 * sizeof(char *));
     if (sortedStudents == NULL) return NULL;
 
     for (int i = 0; i < SIZE_TOP1; i++) {
-        Student* student = get(pClass->students, i);
+        Student *student = get(pClass->students, i);
         if (student != NULL) {
-            char* name = malloc(strlen(student->name)+strlen(student->surname) * sizeof(char));
+            char *name = malloc(strlen(student->name) + strlen(student->surname) * sizeof(char));
             if (name != NULL) {
                 strcpy(name, student->name);
                 strcat(name, " ");
@@ -184,7 +184,7 @@ char** API_sort_students(Class* pClass) {
     return sortedStudents;
 }
 
-Student** API_get_sorted_students(Class *classObj) {
+Student **API_get_sorted_students(Class *classObj) {
     if (classObj == NULL) return NULL;
     sortStudent(classObj, NULL);
 
@@ -199,4 +199,36 @@ Student** API_get_sorted_students(Class *classObj) {
     }
 
     return studentsArray;
+}
+
+void API_display_results_per_field(Class *pClass) {
+    if (pClass == NULL || pClass->students == NULL) return;
+
+    printf("Results per field:\n");
+    ListNode *node = pClass->students->head;
+    while (node != NULL) {
+        Student *student = (Student *) node->data;
+
+        printf("Student ID: %d, Name: %s %s, Age: %d, Average: %.2f\n",
+               student->id, student->name, student->surname, student->age, student->average);
+
+        if (checkValidation(student, SCIENCES_MASK)) {
+            printf("[SCI: VALIDE] ");
+        } else {
+            printf("[SCI: FAIL] ");
+        }
+
+        if (checkValidation(student, HUMANITIES_MASK)) {
+            printf("[HUMA: VALIDE] ");
+        } else {
+            printf("[HUMA: FAIL] ");
+        }
+
+        if (checkValidation(student, YEAR_MASK)) {
+            printf("=> YEAR GOOD");
+        }
+
+        printf("\n");
+        node = node->next;
+    }
 }
