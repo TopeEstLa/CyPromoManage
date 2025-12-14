@@ -60,6 +60,19 @@ Course* getCourseByNameInClass(Class* classObj, char* courseName);
 Student* getStudentById(Class* classObj, int id);
 
 /**
+ * Sort the students in the class by their average.
+ * @param classObj
+ */
+void sortStudentsInClassByAverage(Class* classObj);
+
+/**
+ * Sort the students in the class by their average in a specific course.
+ * @param classObj
+ * @param courseName
+ */
+void sortStudentsInClassByAverageInCourse(Class* classObj, char* courseName);
+
+/**
  * Print the class information.
  * @param classObj the class to print.
  */

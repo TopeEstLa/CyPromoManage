@@ -29,8 +29,8 @@ void API_display(Class *class) {
         ListNode *courseNode = student->courses->head;
         while (courseNode != NULL) {
             Course *course = (Course *) courseNode->data;
-            printf("  Course: %s, Coefficient: %.2f, Average: %.2f\n",
-                   course->name, course->coef, course->average);
+            //printf("  Course: %s, Coefficient: %.2f, Average: %.2f\n",
+            //       course->name, course->coef, course->average);
             courseNode = courseNode->next;
         }
 
@@ -41,5 +41,3 @@ void API_display(Class *class) {
 void API_unload(Class *class) {
     freeClass(class);
 }
-
-

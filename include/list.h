@@ -27,6 +27,14 @@ typedef struct list {
 } List;
 
 /**
+ * This function pointer is used to compare two nodes' data.
+ * -1 if a < b
+ * 0 if a == b
+ * 1 if a > b
+ */
+typedef int (*CompareFunc)(void *a, void *b, void* context);
+
+/**
  * Create a new list.
  * @return the new list.
  */
@@ -100,6 +108,13 @@ void *get(List *list, int index);
  */
 List *reverseList(List *list);
 
+/**
+ * Sort the list based on the provided comparison function.
+ * @param list the list to sort.
+ * @param compare the function pointer used to compare two nodes' data.
+ * @param context a context pointer passed to the compare function.
+ */
+void sortList(List *list, CompareFunc compare, void* context);
 
 /**
  * Print the list.

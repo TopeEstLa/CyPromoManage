@@ -1,4 +1,7 @@
 #include <api_student.h>
+#include <stdio.h>
+#include <class.h>
+
 
 int main(void) {
     /**
@@ -19,7 +22,12 @@ int main(void) {
      * Class -> List(Student*) -> Student* -> List(Course*) -> Course* -> List(Double*) lmao
      */
 
-    Class* class = API_load_students("data.txt");
+    Class *class = API_load_students("data.txt");
+
+    API_display(class);
+
+    printf("Saving to binary file...\n");
+    sortStudentsInClassByAverage(class);
 
     API_display(class);
 }

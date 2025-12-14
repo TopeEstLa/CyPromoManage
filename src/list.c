@@ -195,6 +195,26 @@ List *reverseList(List *list) {
     return reversedList;
 }
 
+void sortList(List *list, CompareFunc compare, void* context) {
+    if (list == NULL) return;
+    if (list->size < 2) return;
+
+    bool swapped;
+    do {
+        swapped = false;
+        ListNode *current = list->head;
+        while (current != NULL && current->next != NULL) {
+            if (compare(current->data, current->next->data, context) > 0) {
+                void *temp = current->data;
+                current->data = current->next->data;
+                current->next->data = temp;
+                swapped = true;
+            }
+            current = current->next;
+        }
+    } while (swapped);
+}
+
 void printList(List *list) {
     if (list == NULL) return;
 

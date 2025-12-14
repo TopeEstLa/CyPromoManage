@@ -89,6 +89,45 @@ Student* getStudentById(Class* classObj, int id) {
     return NULL;
 }
 
+int compareByAverage(void *studentA, void *studentB, void *context) {
+    Student *a = (Student *) studentA;
+    Student *b = (Student *) studentB;
+
+    if (a->average < b->average) return 1;
+    if (a->average > b->average) return -1;
+    return 0;
+}
+
+int compareByAverageCourse(void *studentA, void *studentB, void *context) {
+    Student *a = (Student *) studentA;
+    Student *b = (Student *) studentB;
+    char *courseName = (char *) context;
+    if (courseName == NULL) return 0;
+
+    Course *courseA = getCourseByName(studentA, courseName);
+    Course *courseB = getCourseByName(studentB, courseName);
+
+    if (courseA == NULL && courseB == NULL) return 0;
+    if (courseA == NULL) return 1;
+    if (courseB == NULL) return -1;
+
+    if (courseA->average < courseB->average) return 1;
+    if (courseA->average > courseB->average) return -1;
+    return 0;
+}
+
+void sortStudentsInClassByAverage(Class* classObj) {
+    if (classObj == NULL) return;
+
+    sortList(classObj->students, compareByAverage, NULL);
+}
+
+void sortStudentsInClassByAverageInCourse(Class* classObj, char* courseName) {
+    if (classObj == NULL || courseName == NULL) return;
+
+    sortList(classObj->students, compareByAverageCourse, courseName);
+}
+
 void printClass(Class* classObj) {
     if (classObj == NULL) return;
 
