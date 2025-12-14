@@ -43,7 +43,7 @@ void computeStudentAverage(Student* student) {
     if (student == NULL) return;
 
     double totalWeightedAverage = 0.0;
-    double totalCoef = 1.0;
+    double totalCoef = 0.0;
 
     for (int i = 0; i < student->courses->size; i++) {
         Course* course = get(student->courses, i);
@@ -81,6 +81,24 @@ void addGradeToCourse(Student *student, char *courseName, double grade) {
     if (course == NULL) return;
     addGrade(course, grade);
     computeCourseAverage(course);
+}
+
+double getMinCourseAverageForStudent(Student *student) {
+    if (student == NULL || student->courses->size == 0) return -1;
+
+    double minAverage = 101.0;
+
+    for (int i = 0; i < student->courses->size; i++) {
+        Course* course = get(student->courses, i);
+        if (course != NULL) {
+            computeCourseAverage(course);
+            if (course->average < minAverage) {
+                minAverage = course->average;
+            }
+        }
+    }
+
+    return minAverage;
 }
 
 void printStudent(Student* student) {

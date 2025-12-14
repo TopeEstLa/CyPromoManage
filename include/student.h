@@ -68,6 +68,13 @@ void addCourse(Student *student, Course *course);
 void addGradeToCourse(Student *student, char *courseName, double grade); //TODO we will see during the parsing part
 
 /**
+* Get the worst course average for a student.
+* @param student the student to get the worst course average for.
+* @return the worst course average.
+*/
+double getMinCourseAverageForStudent(Student *student);
+
+/**
  * Print the student information.
  * @param student the student to print.
  */

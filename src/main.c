@@ -25,9 +25,4 @@ int main(void) {
     Class *class = API_load_students("data.txt");
 
     API_display(class);
-
-    printf("Saving to binary file...\n");
-    sortStudentsInClassByAverage(class);
-
-    API_display(class);
 }

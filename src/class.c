@@ -116,6 +116,12 @@ int compareByAverageCourse(void *studentA, void *studentB, void *context) {
     return 0;
 }
 
+void sortStudent(Class* class, void* context) {
+    if (class == NULL) return;
+
+    sortList(class->students, class->sortingFunction, context);
+}
+
 void sortStudentsInClassByAverage(Class* classObj) {
     if (classObj == NULL) return;
 

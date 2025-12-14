@@ -14,6 +14,7 @@
 typedef struct class {
     List* students; // List of Student*
     double average;
+    int (*sortingFunction)(void*, void*, void*);
     List* courses; // List of all available Course* in the class (class = .csv file)
 } Class;
 
@@ -58,6 +59,13 @@ Course* getCourseByNameInClass(Class* classObj, char* courseName);
  * @return the student if found, NULL otherwise.
  */
 Student* getStudentById(Class* classObj, int id);
+
+/**
+ * Sort the students in the class using the class's sorting function.
+ * @param class the class to sort.
+ * @param context additional context for the sorting function.
+ */
+void sortStudent(Class* class, void* context);
 
 /**
  * Sort the students in the class by their average.
