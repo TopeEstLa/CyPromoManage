@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.28)
 project(PromoManage C)
 
 set(CMAKE_C_STANDARD 11)
@@ -22,4 +22,6 @@ add_executable(PromoManage
         src/csv_parser.c
         include/data_saver.h
         src/data_saver.c
+        include/api_student.h
+        src/api_student.c
 )

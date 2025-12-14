@@ -1,8 +1,8 @@
 CC = gcc
 
-CFLAGS = -std=c11  -Iinclude
+CFLAGS = -std=c11 -Iinclude
 
-SRC = src/main.c src/class.c src/course.c src/csv_parser.c src/data_saver.c src/list.c src/student.c
+SRC = $(shell find src -type f -name "*.c")
 
 OBJ = $(SRC:.c=.o)
 
@@ -16,5 +16,10 @@ $(TARGET): $(OBJ)
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+run: $(TARGET)
+	./$(TARGET)
+
 clean:
 	rm -f $(OBJ) $(TARGET)
+
+.PHONY: all clean run
