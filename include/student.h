@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 /**
- * Index
+ * Enum representing the index of each course for validation flags
  */
 typedef enum {
     MATHEMATIQUES = 0,
@@ -43,6 +43,7 @@ typedef enum {
  * @param age the student's age
  * @param courses a list of courses (Course*)
  * @param average the student's average
+ * @param validation_flags a bitmask representing the validation status of the student's courses (index = CourseIndex)
  */
 typedef struct student {
     int id;

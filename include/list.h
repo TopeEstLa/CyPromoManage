@@ -109,7 +109,7 @@ void *get(List *list, int index);
 List *reverseList(List *list);
 
 /**
- * Sort the list based on the provided comparison function.
+ * Sort the list based on the provided comparison function. (not very optimized)
  * @param list the list to sort.
  * @param compare the function pointer used to compare two nodes' data.
  * @param context a context pointer passed to the compare function.

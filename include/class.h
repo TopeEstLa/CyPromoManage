@@ -9,6 +9,7 @@
  * Represent a class
  * @param students a list of students (Student*)
  * @param average the average of the class
+ * @param sortingFunction a pointer of function used to sort the students in the class
  * @param courses a list of all available courses in the class (Course*)
  */
 typedef struct class {
