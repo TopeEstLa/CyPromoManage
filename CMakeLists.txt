@@ -24,4 +24,6 @@ add_executable(PromoManage
         src/data_saver.c
         include/api_student.h
         src/api_student.c
+        include/api_crypt.h
+        src/api_crypt.c
 )
