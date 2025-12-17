@@ -24,6 +24,23 @@ int main(void) {
 
     Class *class = API_load_students("data.txt");
 
-    //API_display(class);
-    API_display_results_per_field(class);
+    API_display(class);
+
+    bool valid = updateClassAverageGrades(class, standardization);
+
+    if (valid) {
+        printf("Update success");
+        API_display(class);
+    } else {
+        printf("Update failed");
+    }
+
+    int size;
+    char** name = listName(class, &size);
+
+    printf("%d\n", size);
+    for (int i = 0; i < size; i++) {
+        printf("#%d %s\n", i, name[i]);
+    }
+
 }

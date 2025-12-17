@@ -26,4 +26,6 @@ add_executable(PromoManage
         src/api_student.c
         include/api_crypt.h
         src/api_crypt.c
+        include/memory_utils.h
+        src/memory_utils.c
 )

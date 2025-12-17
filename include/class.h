@@ -4,6 +4,7 @@
 #include "list.h"
 #include "student.h"
 #include "course.h"
+#include "stdbool.h"
 
 /**
  * Represent a class
@@ -18,6 +19,11 @@ typedef struct class {
     int (*sortingFunction)(void*, void*, void*);
     List* courses; // List of all available Course* in the class (class = .csv file)
 } Class;
+
+/**
+ * Function pointer (Student*, min, max)
+ */
+typedef void (*RecalcFunction)(Student* student, double min, double max);
 
 /**
  * Create a new class.
@@ -80,6 +86,30 @@ void sortStudentsInClassByAverage(Class* classObj);
  * @param courseName
  */
 void sortStudentsInClassByAverageInCourse(Class* classObj, char* courseName);
+
+/**
+ *
+ * @param student
+ * @param min
+ * @param max
+ */
+void standardization(Student* student, double min, double max);
+
+/**
+ * Update the class average grades.
+ * @param class
+ * @param recalc_function
+ * @return true if the class average was updated, false otherwise.
+ */
+bool updateClassAverageGrades(Class* class, RecalcFunction recalc_function);
+
+/**
+ * Return a tab of all student name
+ * @param class
+ * @param finalSize a int pointer for the list size
+ * @return
+ */
+char** listName(Class* class, int* finalSize);
 
 /**
  * Print the class information.

@@ -1,5 +1,6 @@
 #include <class.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdio.h>
 
 Class* createClass() {
@@ -133,6 +134,117 @@ void sortStudentsInClassByAverageInCourse(Class* classObj, char* courseName) {
 
     sortList(classObj->students, compareByAverageCourse, courseName);
 }
+
+double searchMaxAverageInClass(Class* class) {
+    if (class == NULL) return -1.0;
+
+    double maxAverage = -1.0;
+    for (int i = 0; i < class->students->size; i++) {
+        Student* student = get(class->students, i);
+        if (student != NULL && student->average > maxAverage) {
+            maxAverage = student->average;
+        }
+    }
+
+    return maxAverage;
+}
+
+double searchMinAverageInClass(Class* class) {
+    if (class == NULL) return -1.0;
+
+    double minAverage = 101.0;
+    for (int i = 0; i < class->students->size; i++) {
+        Student* student = get(class->students, i);
+        if (student != NULL && student->average < minAverage) {
+            minAverage = student->average;
+        }
+    }
+
+    return minAverage;
+}
+
+void standardization(Student* student, double min, double max) {
+    if (max - min == 0) {
+        printf("Can't run standardization cause max-min=0.\n");
+        exit(1);
+    }
+
+    student->average = (student->average - min) / (max - min) * 20.0;
+}
+
+bool updateClassAverageGrades(Class* class, RecalcFunction recalc_function) {
+    if (class == NULL) return false;
+
+    double maxAverage = searchMaxAverageInClass(class);
+    if (maxAverage == -1.0) return false;
+
+    double minAverage = searchMinAverageInClass(class);
+    if (minAverage == -1.0) return false;
+
+    ListNode* current = class->students->head;
+    while (current != NULL) {
+        Student* s = (Student*)current->data;
+        recalc_function(s, minAverage, maxAverage);
+        current = current->next;
+    }
+
+    return true;
+}
+
+char** listName(Class* class, int* outSize) {
+    if (class == NULL || class->students == NULL || outSize == NULL) return NULL;
+
+    int count = class->students->size;
+    *outSize = count;
+
+    if (count == 0) return NULL;
+
+    int totalChars = 0;
+    ListNode* current = class->students->head;
+    while (current != NULL) {
+        Student* student = current->data;
+        if (student && student->name) {
+            totalChars += strlen(student->name) + 1;
+        }
+        current = current->next;
+    }
+
+    char** array = malloc(sizeof(char*) * count);
+    if (!array) return NULL;
+
+    char* bigBuffer = malloc(sizeof(char) * totalChars);
+    if (!bigBuffer) {
+        free(array);
+        return NULL;
+    }
+
+    char* cursor = bigBuffer;
+    current = class->students->head;
+    int i = 0;
+    while (current != NULL && i < count) {
+        Student* student = current->data;
+        if (student != NULL && student->name != NULL) {
+            array[i] = cursor;
+
+            char* srcName = student->name;
+            while (*srcName) {
+                *cursor = (char)toupper((unsigned char)*srcName);
+                cursor++;
+                srcName++;
+            }
+            *cursor = '\0';
+            cursor++;
+        } else {
+            array[i] = NULL;
+        }
+
+        current = current->next;
+        i++;
+    }
+
+    return array;
+}
+
 
 void printClass(Class* classObj) {
     if (classObj == NULL) return;
