@@ -3,7 +3,7 @@
 #include <course.h>
 #include <list.h>
 #include <string.h>
-#include <stdint.h>
+#include <memory_utils.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -123,6 +123,72 @@ bool save_class_to_file(Class *class, char *filename) {
                 }
             }
         }
+    }
+
+    fclose(f);
+    return true;
+}
+
+bool save_student_to_file(Student* student, char* filename) {
+    if (student == NULL || filename == NULL) return false;
+    FILE *f = fopen(filename, "wb");
+    if (!f) return false;
+
+
+    printf("Surname : %s\n", student->surname);
+    printf("Name : %s\n", student->name);
+    fwrite(student->surname, 1, strlen(student->surname) + 1, f); //no swap need
+    fwrite(student->name, 1, strlen(student->name) + 1, f); //no swap need
+
+    printf("Id hexa before swap: %X\n", student->id);
+    int* swp_id = swap_order(&student->id, sizeof(int), 1);
+    if (swp_id == NULL) {
+        fclose(f);
+        return false;
+    }
+
+    printf("Id hexa after swap: %X\n", *swp_id);
+    fwrite(swp_id, sizeof(int), 1, f);
+    free(swp_id);
+
+    printf("Age hexa before swap: %X\n", student->age);
+    int* swp_age = swap_order(&student->age, sizeof(int), 1);
+    if (swp_age == NULL) {
+        fclose(f);
+        return false;
+    }
+
+    printf("Age hexa after swap: %X\n", *swp_age);
+    fwrite(swp_age, sizeof(int), 1, f);
+    free(swp_age);
+
+    printf("Average hexa before swap: %lX\n", *(unsigned long*)&student->average);
+    int* swp_avg = swap_order(&student->average, sizeof(double), 1);
+    if (swp_avg == NULL) {
+        fclose(f);
+        return false;
+    }
+
+    printf("Average hexa after swap: %lX\n", *(unsigned long*)swp_avg);
+    fwrite(swp_avg, sizeof(double), 1, f);
+    free(swp_avg);
+
+    for (int i = 0; i < student->courses->size; i++) {
+        Course* course = get(student->courses, i);
+        if (course == NULL) continue;
+
+        fwrite(course->name, 1, strlen(course->name) + 1, f); //no swap need
+
+        printf("Average of course %s hexa before swap: %lX\n", course->name, *(unsigned long*)&course->average);
+        int* swp_c_avg = swap_order(&course->average, sizeof(double), 1);
+        if (swp_c_avg == NULL) {
+            fclose(f);
+            return false;
+        }
+
+        printf("Average of course %s hexa after swap: %lX\n", course->name, *(unsigned long*)swp_c_avg);
+        fwrite(swp_c_avg, sizeof(double), 1, f);
+        free(swp_c_avg);
     }
 
     fclose(f);

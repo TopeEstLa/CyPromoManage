@@ -3,6 +3,8 @@
 #include <class.h>
 #include <assert.h>
 #include <memory_utils.h>
+#include <data_saver.h>
+#include <list.h>
 
 
 int main(void) {
@@ -97,4 +99,20 @@ int main(void) {
 
     free(result3);
     printf("Exo 3 test 3 passed.\n");
+
+
+    printf("Saving random student to binary file...\n");
+
+    int index = rand() % class->students->size;
+    Student* student = get(class->students, index);
+    printf("Saving student %s\n", student->name);
+
+    bool success = save_student_to_file(student, "student.bin");
+
+    if (success) {
+        printf("Student saved successfully.\n");
+    } else {
+        printf("Failed to save student to binary file.\n");
+    }
+
 }
